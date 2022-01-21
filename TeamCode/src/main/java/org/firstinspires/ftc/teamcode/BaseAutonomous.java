@@ -103,6 +103,10 @@ public class BaseAutonomous extends LinearOpMode{
                 motorRF.getCurrentPosition() + forwardTicks - horizontalTicks, //rf
                 motorRB.getCurrentPosition() + forwardTicks + horizontalTicks, //rb
         };
+        telemetry.addData("targetLF", targets[0]);
+        telemetry.addData("targetLB", targets[1]);
+        telemetry.addData("targetRF", targets[2]);
+        telemetry.addData("targetRB", targets[3]);
 
 
 
@@ -116,12 +120,16 @@ public class BaseAutonomous extends LinearOpMode{
             }
         }
         telemetry.addData("max", maxTarget);
-        telemetry.update();
+
 
         for(int i = 0; i < motors.length; i++) {
             speeds[i] = ((double) targets[i] / maxTarget) * speed; //the fastest wheel should be going at the speed "speed"
         }
         telemetry.addData("speed0", speeds[0]);
+        telemetry.addData("speed1", speeds[1]);
+        telemetry.addData("speed2", speeds[2]);
+        telemetry.addData("speed3", speeds[3]);
+        telemetry.update();
         for(int i = 0; i < motors.length; i++) {
             motors[i].setTargetPosition(targets[i]);
             motors[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -129,7 +137,7 @@ public class BaseAutonomous extends LinearOpMode{
         }
 
         while(opModeIsActive() && (motors[0].isBusy() || motors[1].isBusy() || motors[2].isBusy() || motors[3].isBusy())) {
-            telemetry.addData("pos0", motors[0].getCurrentPosition());//wait for stuff to done
+            //telemetry.addData("pos0", motors[0].getCurrentPosition());//wait for stuff to done
         }
 
         for(DcMotor motor: motors) {
