@@ -96,34 +96,41 @@ public class BaseAutonomous extends LinearOpMode{
 
         int forwardTicks = (int) Math.round(TICKS_PER_CM * forwardCm);
         int horizontalTicks = (int) Math.round(TICKS_PER_CM * horizontalCm);
-
-        int[] targets = {
-                motorLF.getCurrentPosition() + forwardTicks + horizontalTicks, //lf
-                motorLB.getCurrentPosition() + forwardTicks - horizontalTicks, //lb
-                motorRF.getCurrentPosition() + forwardTicks - horizontalTicks, //rf
-                motorRB.getCurrentPosition() + forwardTicks + horizontalTicks, //rb
+        
+        int[] currentPositions = {
+                motorLF.getCurrentPosition(),
+                motorLB.getCurrentPosition(),
+                motorRF.getCurrentPosition(),
+                motorRB.getCurrentPosition()
         };
-        telemetry.addData("targetLF", targets[0]);
+        
+        int[] deltaTargets = {
+                forwardTicks + horizontalTicks, //lf
+                forwardTicks - horizontalTicks, //lb
+                forwardTicks - horizontalTicks, //rf
+                forwardTicks + horizontalTicks, //rb
+        };
+        /*telemetry.addData("targetLF", targets[0]);
         telemetry.addData("targetLB", targets[1]);
         telemetry.addData("targetRF", targets[2]);
-        telemetry.addData("targetRB", targets[3]);
+        telemetry.addData("targetRB", targets[3]);*/
 
 
 
         double[] speeds = new double[4];
 
         //find the target with greatest magnitude
-        int maxTarget = 0;
+        int maxDeltaTarget = 0;
         for(int i = 0; i < motors.length; i++) {
-            if (maxTarget < Math.abs(targets[i])) {
-                maxTarget = Math.abs(targets[i]);
+            if (maxDeltaTarget < Math.abs(deltaTargets[i])) {
+                maxDeltaTarget = Math.abs(deltaTargets[i]);
             }
         }
-        telemetry.addData("max", maxTarget);
+        telemetry.addData("max", maxDeltaTarget);
 
 
         for(int i = 0; i < motors.length; i++) {
-            speeds[i] = ((double) targets[i] / maxTarget) * speed; //the fastest wheel should be going at the speed "speed"
+            speeds[i] = ((double) deltaTargets[i] / maxDeltaTarget) * speed; //the fastest wheel should be going at the speed "speed"
         }
         telemetry.addData("speed0", speeds[0]);
         telemetry.addData("speed1", speeds[1]);
@@ -131,7 +138,7 @@ public class BaseAutonomous extends LinearOpMode{
         telemetry.addData("speed3", speeds[3]);
         telemetry.update();
         for(int i = 0; i < motors.length; i++) {
-            motors[i].setTargetPosition(targets[i]);
+            motors[i].setTargetPosition(currentPositions[i] + deltaTargets[i]);
             motors[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motors[i].setPower(speeds[i]);
         }
