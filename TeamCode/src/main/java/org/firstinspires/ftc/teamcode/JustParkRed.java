@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="BaseAutonomous")
-public class BaseAutonomous extends LinearOpMode{
+@Autonomous(name="JustParkRed")
+public class JustParkRed extends LinearOpMode{
     DcMotor motorLF;
     DcMotor motorLB;
     DcMotor motorRF;
@@ -27,11 +27,9 @@ public class BaseAutonomous extends LinearOpMode{
         runSetup();
         waitForStart();
 
-        driveCm(1, 50, 0);
-        driveCm(1, 0, 50);
-        driveCm(1, 0, -50);
-        driveCm(1, -50,0);
-        spinSpinners(1,1);
+        driveCm(1, 0, 122);
+        driveCm(1, -62,0);
+
 
     }
 
