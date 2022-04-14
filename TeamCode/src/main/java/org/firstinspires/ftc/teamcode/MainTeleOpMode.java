@@ -13,8 +13,8 @@ public class MainTeleOpMode extends LinearOpMode{
     DcMotor motorLB;
     DcMotor motorRF;
     DcMotor motorRB;
-    /*DcMotor Spinner;
-    Servo IntakeLoad;
+    DcMotor Spinner;
+    /*Servo IntakeLoad;
     DcMotor intakeB;
     DcMotor intakeF;*/
 
@@ -51,13 +51,13 @@ public class MainTeleOpMode extends LinearOpMode{
                 }
             }
 
-            /*if (gamepad1.a) {
+            if (gamepad1.a) {
                 Spinner.setPower(1);
             } else {
                 Spinner.setPower(0);
             }
 
-            if (gamepad1.b) {
+            /*if (gamepad1.b) {
                 Spinner.setPower(-1);
             } else {
                 Spinner.setPower(0);
@@ -167,10 +167,11 @@ public class MainTeleOpMode extends LinearOpMode{
         intakeB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeB.setDirection(DcMotor.Direction.REVERSE);
-
+       */
         //Spinner
         Spinner = hardwareMap.get(DcMotor.class, "spinner_l");
         Spinner.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        */
+        Spinner.setDirection(DcMotor.Direction.REVERSE);
+
     }
 }
