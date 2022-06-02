@@ -7,31 +7,28 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="BaseAutonomous")
-public class BaseAutonomous extends LinearOpMode{
+@Autonomous(name="JustParkRed")
+public class JustParkRed extends LinearOpMode{
     DcMotor motorLF;
     DcMotor motorLB;
     DcMotor motorRF;
     DcMotor motorRB;
-    DcMotor SpinnerL;
-    DcMotor SpinnerR;
+    DcMotor Spinner;
     DcMotor[] motors = new DcMotor[4];
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime loadDelay = new ElapsedTime();
     boolean infiniteLoop = false;
 
-    static final double TICKS_PER_CM = 1120 / 31.9186; //cm.
+    static final double TICKS_PER_CM = 1120 / 44.3232; //cm.
     @Override
     public void runOpMode() throws InterruptedException {
         runSetup();
         waitForStart();
 
-        driveCm(1, 50, 0);
-        driveCm(1, 0, 50);
-        driveCm(1, 0, -50);
-        driveCm(1, -50,0);
-        spinSpinners(1,1);
+        driveCm(1, 0, 72);
+        driveCm(1, 60,0);
+
 
     }
 
@@ -46,11 +43,9 @@ public class BaseAutonomous extends LinearOpMode{
         motors[3] = motorRB;
         motorRF.setDirection(DcMotor.Direction.REVERSE);
         motorRB.setDirection(DcMotor.Direction.REVERSE);
-        SpinnerL = hardwareMap.get(DcMotor.class, "spinner_l");
-        SpinnerR = hardwareMap.get(DcMotor.class, "spinner_r");
-        SpinnerR.setDirection(DcMotor.Direction.REVERSE);
-        SpinnerL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        SpinnerR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Spinner = hardwareMap.get(DcMotor.class, "spinner_l");
+
+        Spinner.setDirection(DcMotor.Direction.REVERSE);
         runtime.reset();
 
     }
@@ -84,11 +79,9 @@ public class BaseAutonomous extends LinearOpMode{
     }
 
     public void spinSpinners(double power, long seconds){
-        SpinnerL.setPower(power);
-        SpinnerR.setPower(power);
+        Spinner.setPower(power);
         sleep(seconds*1000);
-        SpinnerL.setPower(0);
-        SpinnerR.setPower(0);
+        Spinner.setPower(0);
     }
 
 
